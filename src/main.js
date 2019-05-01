@@ -9,8 +9,11 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import mixin from './mixins/globalMixin'
 import store from './store'
 
+import BuyModal from '@/components/Shared/BuyModal'
+
 Vue.config.productionTip = false
 Vue.use(Vuetify)
+Vue.component('app-buy-modal', BuyModal)
 Vue.mixin(mixin)
 
 /* eslint-disable no-new */
@@ -35,5 +38,7 @@ new Vue({
         this.$store.dispatch('autoLoginUser', user)
       }
     })
+
+    this.$store.dispatch('fetchAds')
   }
 })

@@ -5,19 +5,26 @@
         <h1 class="text--secondary mb-3">Create new add</h1>
         <v-form v-model="valid" ref="form" validation>
           <v-text-field :rules="titleRules" required name="title" v-model="title" label="Add title" type="text"></v-text-field>
-          <v-textarea :rules="descriptionRules" multi-line v-model="description" name="description" label="Description" type="textarea"></v-textarea>
+          <v-textarea :rules="descriptionRules" v-model="description" name="description" label="Description" type="textarea"></v-textarea>
         </v-form>
         <v-layout mb-3>
           <v-flex xs12>
-            <v-btn color="warning">
+            <v-btn class="warning" @click="triggerUpload">
               Upload
               <v-icon right dark>cloud_upload</v-icon>
             </v-btn>
+            <input
+              ref="fileInput"
+              type="file"
+              style="display: none;"
+              accept="image/*"
+              @change="onFileChange"
+            >
           </v-flex>
         </v-layout>
         <v-layout row>
           <v-flex xs12>
-            <img src="" alt="" height="150">
+            <img :src="imageSrc" height="100" v-if="imageSrc">
           </v-flex>
         </v-layout>
         <v-layout row>
@@ -35,8 +42,8 @@
               <v-btn
                 color="light-green lighten-1"
                 @click="onSubmit"
-                :disabled="!valid || loading"
                 :loading="loading"
+                :disabled="!valid || !image || loading"
               >
                 Create new add
               </v-btn>
@@ -57,6 +64,8 @@ export default {
       description: '',
       switchSlider: false,
       valid: false,
+      image: null,
+      imageSrc: '',
       titleRules: [
         v => !!v || 'Title is required'
       ],
@@ -72,17 +81,34 @@ export default {
   },
   methods: {
     onSubmit: function () {
-      const newAdd = {
-        title: this.title,
-        description: this.description,
-        promo: this.switchSlider,
-        imageSrc: 'https://proglib.io/wp-content/uploads/2018/07/1_qnI8K0Udjw4lciWDED4HGw.png'
+      if (this.$refs.form.validate() && this.image) {
+        const ad = {
+          title: this.title,
+          description: this.description,
+          promo: this.switchSlider,
+          image: this.image
+        }
+        this.$store.dispatch('createAd', ad)
+          .then(() => {
+            this.$router.push('/list')
+          })
+          .catch(() => {})
       }
-      this.$store.dispatch('createAd', newAdd).then(() => {
-        this.$router.push('/list')
-      }).catch(() => {})
       this.reset()
       this.resetValidation()
+    },
+    triggerUpload () {
+      this.$refs.fileInput.click()
+    },
+    onFileChange (event) {
+      const file = event.target.files[0]
+
+      const reader = new FileReader()
+      reader.onload = e => {
+        this.imageSrc = reader.result
+      }
+      reader.readAsDataURL(file)
+      this.image = file
     }
   }
 }

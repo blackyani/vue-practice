@@ -34,7 +34,7 @@
     <template v-if="error">
       <v-snackbar
         :multi-line="true"
-        timeout="3000"
+        :timeout="3000"
         color="error"
         @input="closeError"
         :value="true"

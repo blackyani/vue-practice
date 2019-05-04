@@ -8,11 +8,19 @@ import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import mixin from './mixins/globalMixin'
 import store from './store'
+import colors from 'vuetify/es5/util/colors'
+import './stylus/main.styl'
 
 import BuyModal from '@/components/Shared/BuyModal'
 
 Vue.config.productionTip = false
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: colors.lightGreen.lighten1, // #E53935
+    secondary: colors.red.lighten4, // #FFCDD2
+    accent: colors.indigo.base // #3F51B5
+  }
+})
 Vue.component('app-buy-modal', BuyModal)
 Vue.mixin(mixin)
 

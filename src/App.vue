@@ -13,7 +13,7 @@
         <v-list-tile v-if="isUserLoggedIn" @click="onLogout">Logout <v-icon>exit_to_app</v-icon></v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app dark color="light-green lighten-1">
+    <v-toolbar app dark color="primary">
       <v-toolbar-side-icon class="hidden-md-and-up" @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link to="/" tag="span" class="pointer">Vue practice</router-link>

@@ -81,8 +81,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  .card-link {
+<style scoped lang="stylus">
+  .card-link
     position: absolute;
     bottom: 50px;
     left: 50%;
@@ -90,5 +90,5 @@ export default {
     transform: translate(-50%,0);
     padding: 5px 15px;
     border-radius: 5px 0 5px 0;
-  }
+
 </style>
